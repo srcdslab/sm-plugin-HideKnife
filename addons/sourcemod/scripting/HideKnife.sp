@@ -4,7 +4,9 @@
 #include <sdkhooks>
 #include <zombiereloaded>
 
-public Plugin:myinfo =
+#pragma newdecls required
+
+public Plugin myinfo =
 {
     name = "Magical disappeareance cuttaroo",
     author = "Original by d0ck3r for CS:S, cleaned by Jim McKenzie for CS:GO",
@@ -13,16 +15,16 @@ public Plugin:myinfo =
     url = ""
 };
 
-new bool:lateLoad = false;
+bool lateLoad = false;
 
-public OnMapStart()
+public void OnMapStart()
 {
     if (lateLoad == true)
     {
         return;
     }
     
-    for (new client = 1; client <= MaxClients; client++)
+    for (int client = 1; client <= MaxClients; client++)
     {
         if (!IsClientInGame(client))
         {
@@ -33,12 +35,12 @@ public OnMapStart()
     lateLoad = true;
 }
 
-public OnClientPutInServer(client)
+public void OnClientPutInServer(int client)
 {
     SDKHook(client, SDKHook_PostThinkPost, OnPostThinkPost);
 }
 
-public OnPostThinkPost(client)
+public void OnPostThinkPost(int client)
 {    
     // If the player isn't alive we don't cate
     if (!IsPlayerAlive(client))
@@ -53,12 +55,12 @@ public OnPostThinkPost(client)
     }
 
     // We get the knife
-    new entity = GetPlayerWeaponSlot(client, 2); 
+    int entity = GetPlayerWeaponSlot(client, 2); 
     
     // If the knife exist then we go on
     if (IsValidEdict(entity))
     {
-        new renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
+        int renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
         SetEntData(entity, renderOffset + 3, 0, 4, true);
     }
 }
