@@ -11,7 +11,7 @@ public Plugin myinfo =
     name = "Magical disappeareance cuttaroo",
     author = "Original by d0ck3r for CS:S, cleaned by Jim McKenzie for CS:GO",
     description = "Makes the knives being held by zombies disappear so they don't look like gangsta muggers.",
-    version = "1.0.1",
+    version = "1.0.2",
     url = ""
 };
 
