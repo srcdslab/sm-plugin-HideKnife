@@ -68,8 +68,20 @@ public void OnPostThinkPost(int client)
             renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
         }
 
+        // The client ignores the alpha with the default render mode (RENDER_NORMAL):
+        // the knife needs RENDER_TRANSCOLOR to disappear. The owner's view model is
+        // another entity, so the zombie still sees its own knife.
+        if (GetEntityRenderMode(entity) != RENDER_TRANSCOLOR)
+        {
+            SetEntityRenderMode(entity, RENDER_TRANSCOLOR);
+        }
+
         // m_clrRender is a color32 (r, g, b, a): write the alpha byte only, so the
-        // bytes after it are left untouched
-        SetEntData(entity, renderOffset + 3, 0, 1, true);
+        // bytes after it are left untouched. Only write when it changes, to avoid
+        // flagging the entity for networking on every tick.
+        if (GetEntData(entity, renderOffset + 3, 1) != 0)
+        {
+            SetEntData(entity, renderOffset + 3, 0, 1, true);
+        }
     }
 }
