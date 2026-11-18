@@ -11,7 +11,7 @@ public Plugin myinfo =
     name = "Magical disappeareance cuttaroo",
     author = "Original by d0ck3r for CS:S, cleaned by Jim McKenzie for CS:GO",
     description = "Makes the knives being held by zombies disappear so they don't look like gangsta muggers.",
-    version = "1.0.2",
+    version = "1.0.3",
     url = ""
 };
 
@@ -68,6 +68,8 @@ public void OnPostThinkPost(int client)
             renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
         }
 
-        SetEntData(entity, renderOffset + 3, 0, 4, true);
+        // m_clrRender is a color32 (r, g, b, a): write the alpha byte only, so the
+        // bytes after it are left untouched
+        SetEntData(entity, renderOffset + 3, 0, 1, true);
     }
 }
