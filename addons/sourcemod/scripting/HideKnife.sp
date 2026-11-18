@@ -60,7 +60,14 @@ public void OnPostThinkPost(int client)
     // If the knife exist then we go on
     if (IsValidEdict(entity))
     {
-        int renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
+        // This runs on every tick for every zombie: look the offset up once.
+        // m_clrRender belongs to CBaseEntity, so it is the same for every knife.
+        static int renderOffset = -1;
+        if (renderOffset == -1)
+        {
+            renderOffset = GetEntSendPropOffs(entity, "m_clrRender");
+        }
+
         SetEntData(entity, renderOffset + 3, 0, 4, true);
     }
 }
